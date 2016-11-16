@@ -104,7 +104,6 @@
     </Compile>
     <Compile Include="NasaProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TwitterProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
