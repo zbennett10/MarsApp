@@ -10,23 +10,57 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <!--<ColumnDefinition Width="2*"></ColumnDefinition>-->
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height=".5*"></RowDefinition>
+            <RowDefinition Height=".5*" ></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition Height=".2*"></RowDefinition>
         </Grid.RowDefinitions>
+
+        <Image Source="Assets/logos/Logomakr_5G1xIF.png" HorizontalAlignment="Center" Width="300" Height="100" VerticalAlignment="Top" Margin="0,20,0,0"></Image>
         
         
-        <TextBlock Name="nasaTest" Grid.Row="0"></TextBlock>
-        <Image Name="testImage" Grid.Row="0" ></Image>
-        <Button Name="testNasaButton" Grid.Row="0" Width="100" Height="50" Content="NASA Test" Click="testNasaButton_Click"></Button>
-       
-        <!--<ListBox Name="twitterTest" Grid.Row="1" Margin="105,0,0,0"></ListBox>-->
-        <StackPanel Grid.Row="1" Grid.Column="1" Name="twitterStack" ></StackPanel>
+        <!--<Image Name="testImage" Grid.Row="0" ></Image>
+        <Button Name="testNasaButton" Grid.Row="0" Width="100" Height="50" Content="NASA Test" Click="testNasaButton_Click"></Button>-->
+           
         
-        <TextBox Name="txtSearchTerm" Grid.Row="1" Width="100" Height="50" Margin="0,270,260,0"></TextBox>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
+                <Button Name="curiosityButton" Content="Curiosity Rover" Height="45" Width="120" Margin="0,10,0,0" Background="Maroon" Foreground="Azure"></Button>
+                <Button Name="opportunityButton" Content="Opportunity Rover" Height="45" Width="120"   Background="Maroon" Foreground="Azure"></Button>
+                <Button Name="spiritButton" Content="Spirit Rover" Height="45" Width="120"   Background="Maroon" Foreground="Azure"></Button>
+                <Button Name="marsMapViewButton" Content="Mars Map" Height="45" Width="120"   Background="Maroon" Foreground="Azure"></Button>
+                <Button Name="marsWikiButton" Content="Mars Wiki" Height="45" Width="120"  Background="Maroon" Foreground="Azure"></Button>
+                <Button Name="spaceXButton" Content="SpaceX" Height="45" Width="120"   Background="Maroon" Foreground="Azure"></Button>
+                <Button Name="nasaButton" Content="NASA" Height="45" Width="120"   Background="Maroon" Foreground="Azure"></Button>
+                
+                
+            </StackPanel>
+            <ScrollViewer  Name="twitterScroll" Grid.Row="1" Grid.Column="0" Height="360"  BorderBrush="Maroon" BorderThickness="5" Margin="0,0,0,0" Width="350" HorizontalScrollBarVisibility="Visible">
+                <StackPanel Name="twitterStack">
+                    
+                    <ListBox Name="twitterTest" SelectionChanged="twitterTest_SelectionChanged">
+                        <ListBoxItem Name="itemZero"></ListBoxItem>
+                        <ListBoxItem Name="itemOne"></ListBoxItem>
+                        <ListBoxItem Name="itemTwo"></ListBoxItem>
+                        <ListBoxItem Name="itemThree"></ListBoxItem>
+                        <ListBoxItem Name="itemFour"></ListBoxItem>
+                    </ListBox>
+                </StackPanel>
+            </ScrollViewer>
+            
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <TextBox Name="twitterSearchTextBox" Grid.Row="2" Height="50" BorderBrush="Maroon" BorderThickness="5"></TextBox>
+            <Button Name="twitterSearchButton" Click="twitterSearchButton_Click" Content="Search Twitter" HorizontalAlignment="Center" Background="Maroon" Foreground="Azure"></Button>
+        </StackPanel>
+        
+
+
+
 
     </Grid>
 </Page>
