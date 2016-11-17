@@ -11,7 +11,6 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -21,19 +20,11 @@ namespace AllAboutMars
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class CuriosityImageViewer : Page
+    public sealed partial class SpaceXPage : Page
     {
-        public CuriosityImageViewer()
+        public SpaceXPage()
         {
             this.InitializeComponent();
-        }
-
-        //fix this
-        private async void On_Page_Load(object sender, RoutedEventArgs e)
-        {
-            var data = await NasaProxy.GetNasaData();
-            BitmapImage image = new BitmapImage(new Uri(data.photos[0].img_src));
-            curiosityImage.Source = image;
         }
     }
 }

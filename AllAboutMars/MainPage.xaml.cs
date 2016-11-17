@@ -79,7 +79,7 @@ namespace AllAboutMars
                                            where search.Type == SearchType.Search &&
                                            search.Query == searchTerm &&
                                            search.ResultType ==  ResultType.Popular &&
-                                           search.Count == 5
+                                           search.Count == 7
                                            select search));
             if (srch != null && srch.Statuses.Count > 0)
             {
@@ -112,9 +112,19 @@ namespace AllAboutMars
 
         }
 
-        private void curiosityButton_Click(object sender, RoutedEventArgs e)
+        private void roverButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(CuriosityImageViewer), null);
+            Frame.Navigate(typeof(RoverPage), null);
+        }
+
+        private void nasaButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(NasaPage), null);
+        }
+
+        private void spaceXButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SpaceXPage), null);
         }
 
         //private List<Status> list;
