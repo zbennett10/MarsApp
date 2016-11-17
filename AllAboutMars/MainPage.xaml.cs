@@ -44,6 +44,8 @@ namespace AllAboutMars
             }
         };
 
+        public List<Match> twitterLinks = new List<Match>();
+
 
         private void OnMainPage_Load(object sender, RoutedEventArgs e)
         {
@@ -52,14 +54,18 @@ namespace AllAboutMars
             authorizer.CredentialStore.ConsumerSecret = resources.GetString("consumerSecret");
             authorizer.CredentialStore.OAuthToken = resources.GetString("accessToken");
             authorizer.CredentialStore.OAuthTokenSecret = resources.GetString("accessSecret");
+   
+            var resultsMars = SearchTwitter("Mars SpaceX");
+            var resultsNasa = SearchTwitter("Nasa Mars");
 
-           
-            var results = SearchTwitter("Mars Nasa");
-            List<Match> links = Link_Finder(results);
+            var marsLinks = Link_Finder(resultsMars);
+            var nasaLinks = Link_Finder(resultsNasa);
+
+            Link_List_Populator(marsLinks, nasaLinks);
+
             twitterTest.Items.Clear();
-            results.ForEach(tweet => twitterTest.Items.Add(tweet.User.Name + ":" + tweet.Text));
-            links.ForEach(link => twitterTest.SelectedValue = link);
-          
+            resultsMars.ForEach(tweet => twitterTest.Items.Add(tweet.User.Name + ":" + tweet.Text));
+            resultsNasa.ForEach(tweet => twitterTest.Items.Add(tweet.User.Name + ":" + tweet.Text));
         }
 
         private static List<Match> Link_Finder(List<Status> tweetList)
@@ -70,6 +76,12 @@ namespace AllAboutMars
             return matches;     
        }
 
+        private void Link_List_Populator(List<Match> list1, List<Match> list2)
+        {
+            list1.ForEach(link => twitterLinks.Add(link));
+            list2.ForEach(link => twitterLinks.Add(link));
+        }
+
         private static List<Status> SearchTwitter(string searchTerm)
         {
             var twitterContext = new TwitterContext(authorizer);
@@ -79,7 +91,7 @@ namespace AllAboutMars
                                            where search.Type == SearchType.Search &&
                                            search.Query == searchTerm &&
                                            search.ResultType ==  ResultType.Popular &&
-                                           search.Count == 7
+                                           search.Count == 5
                                            select search));
             if (srch != null && srch.Statuses.Count > 0)
             {
@@ -88,14 +100,7 @@ namespace AllAboutMars
 
             return new List<Status>();
         }
-
-        private void twitterTest_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            ListBoxItem lbi = ((sender as ListBox).SelectedItem as ListBoxItem);
-          
-
-
-        }
+  
 
         private void twitterSearchButton_Click(object sender, RoutedEventArgs e)
         {
@@ -107,9 +112,13 @@ namespace AllAboutMars
             }
         }
 
-        private void twitterTest_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void twitterTest_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            //ListBoxItem lbi = ((sender as ListBox).SelectedItem as ListBoxItem);
+            int selectedIndex = twitterTest.SelectedIndex;
+            string uriToLaunch = twitterLinks[selectedIndex].ToString();
+            var uri = new Uri(uriToLaunch);
+            await  Windows.System.Launcher.LaunchUriAsync(uri);
         }
 
         private void roverButton_Click(object sender, RoutedEventArgs e)
