@@ -18,7 +18,7 @@ namespace AllAboutMars
             var token = resources.GetString("nasaToken");
 
             HttpClient http = new HttpClient();
-            var response = await http.GetAsync(String.Format("https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key={0}",token));
+            var response = await http.GetAsync(String.Format("https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?max_date&api_key={0}",token));
             var result = await response.Content.ReadAsStringAsync();
             var serializer = new DataContractJsonSerializer(typeof(RootObject));
             var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(result));

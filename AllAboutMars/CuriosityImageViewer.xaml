@@ -5,9 +5,17 @@
     xmlns:local="using:AllAboutMars"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="On_Page_Load">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
 
+        <TextBlock>Curiosity Rover</TextBlock>
+        <Image Name="curiosityImage"></Image>
     </Grid>
+
+   
 </Page>

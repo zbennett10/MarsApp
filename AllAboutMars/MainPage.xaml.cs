@@ -92,8 +92,9 @@ namespace AllAboutMars
         private void twitterTest_SelectionChanged(object sender, RoutedEventArgs e)
         {
             ListBoxItem lbi = ((sender as ListBox).SelectedItem as ListBoxItem);
-            
-            
+          
+
+
         }
 
         private void twitterSearchButton_Click(object sender, RoutedEventArgs e)
@@ -109,6 +110,11 @@ namespace AllAboutMars
         private void twitterTest_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void curiosityButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(CuriosityImageViewer), null);
         }
 
         //private List<Status> list;
