@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -25,7 +26,21 @@ namespace AllAboutMars
         public NasaStationPage()
         {
             this.InitializeComponent();
+            
         }
+
+        private void On_Page_Load(object sender, RoutedEventArgs e)
+        {
+            stationMap.MapServiceToken = Map_Key_Getter();
+        }
+
+        public string Map_Key_Getter()
+        {
+            ResourceLoader resource = new ResourceLoader("Resources");
+            string bingKey = resource.GetString("mapToken");
+            return bingKey;
+        }
+        
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
