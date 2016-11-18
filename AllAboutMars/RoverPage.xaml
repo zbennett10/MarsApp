@@ -7,7 +7,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Loaded="On_Page_Load">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="AppStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Background="Gray">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="60"></RowDefinition>
@@ -18,11 +26,11 @@
         </Grid.RowDefinitions>
         
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Button Name="homeButton" Content="Home" Background="White" Click="homeButton_Click"></Button>
-            <Button Name="nasaButton" Content="NASA" Background="White" Click="nasaButton_Click"></Button>
-            <Button Name="spaceXButton" Content="SpaceX" Background="White" Click="spaceXButton_Click"></Button>
-            <Button Name="roversButton" Content="Rovers" Background="White" Click="roversButton_Click"></Button>
-            <Button Name="stationButton" Content="Station Map" Background="White" Click="stationButton_Click"></Button>
+            <Button Style="{StaticResource ButtonStyle}" Name="homeButton" Content="Home" Background="White" Click="homeButton_Click"></Button>
+            <Button Style="{StaticResource ButtonStyle}" Name="nasaButton" Content="NASA" Background="White" Click="nasaButton_Click"></Button>
+            <Button Style="{StaticResource ButtonStyle}" Name="spaceXButton" Content="SpaceX" Background="White" Click="spaceXButton_Click"></Button>
+            <Button Style="{StaticResource ButtonStyle}" Name="roversButton" Content="Rovers" Background="White" Click="roversButton_Click"></Button>
+            <Button Style="{StaticResource ButtonStyle}" Name="stationButton" Content="Station Map" Background="White" Click="stationButton_Click"></Button>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Vertical">

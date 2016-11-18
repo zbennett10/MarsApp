@@ -61,6 +61,7 @@ namespace AllAboutMars
             twitterTest.Items.Clear();
             resultsMars.ForEach(tweet => twitterTest.Items.Add(tweet.User.Name + ":" + tweet.Text));
             resultsNasa.ForEach(tweet => twitterTest.Items.Add(tweet.User.Name + ":" + tweet.Text));
+            
         }
 
         private static List<Match> Link_Finder(List<Status> tweetList)
