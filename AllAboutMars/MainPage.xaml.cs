@@ -27,10 +27,6 @@ namespace AllAboutMars
     public sealed partial class MainPage : Page
     {
 
-        //public static ListBox twitterTest = new ListBox();
-        
-        
-
         public MainPage()
         {
             this.InitializeComponent();
@@ -45,7 +41,6 @@ namespace AllAboutMars
         };
 
         public List<Match> twitterLinks = new List<Match>();
-
 
         private void OnMainPage_Load(object sender, RoutedEventArgs e)
         {
@@ -97,11 +92,9 @@ namespace AllAboutMars
             {
                 return srch.Statuses.ToList();
             }
-
             return new List<Status>();
         }
   
-
         private void twitterSearchButton_Click(object sender, RoutedEventArgs e)
         {
            var searchResult =  SearchTwitter(twitterSearchTextBox.Text);
@@ -121,9 +114,11 @@ namespace AllAboutMars
             await  Windows.System.Launcher.LaunchUriAsync(uri);
         }
 
-        private void roverButton_Click(object sender, RoutedEventArgs e)
+        
+
+        private void homeButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(RoverPage), null);
+            Frame.Navigate(typeof(MainPage), null);
         }
 
         private void nasaButton_Click(object sender, RoutedEventArgs e)
@@ -135,6 +130,20 @@ namespace AllAboutMars
         {
             Frame.Navigate(typeof(SpaceXPage), null);
         }
+
+        private void roversButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(RoverPage), null);
+        }
+
+        private void stationButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(NasaStationPage), null);
+        }
+
+
+
+
 
         //private List<Status> list;
 

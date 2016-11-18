@@ -26,5 +26,30 @@ namespace AllAboutMars
         {
             this.InitializeComponent();
         }
+
+        private void homeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage), null);
+        }
+
+        private void nasaButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(NasaPage), null);
+        }
+
+        private void spaceXButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SpaceXPage), null);
+        }
+
+        private void roversButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(RoverPage), null);
+        }
+
+        private void stationButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(NasaStationPage), null);
+        }
     }
 }

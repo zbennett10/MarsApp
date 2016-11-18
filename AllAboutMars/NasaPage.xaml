@@ -8,6 +8,12 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Button Name="homeButton" Content="Home" Background="White" Click="homeButton_Click"></Button>
+            <Button Name="nasaButton" Content="NASA" Background="White" Click="nasaButton_Click"></Button>
+            <Button Name="spaceXButton" Content="SpaceX" Background="White" Click="spaceXButton_Click"></Button>
+            <Button Name="roversButton" Content="Rovers" Background="White" Click="roversButton_Click"></Button>
+            <Button Name="stationButton" Content="Station Map" Background="White" Click="stationButton_Click"></Button>
+        </StackPanel>
     </Grid>
 </Page>

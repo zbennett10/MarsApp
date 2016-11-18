@@ -5,9 +5,42 @@
     xmlns:local="using:AllAboutMars"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="On_Page_Load">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="200"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Button Name="homeButton" Content="Home" Background="White" Click="homeButton_Click"></Button>
+            <Button Name="nasaButton" Content="NASA" Background="White" Click="nasaButton_Click"></Button>
+            <Button Name="spaceXButton" Content="SpaceX" Background="White" Click="spaceXButton_Click"></Button>
+            <Button Name="roversButton" Content="Rovers" Background="White" Click="roversButton_Click"></Button>
+            <Button Name="stationButton" Content="Station Map" Background="White" Click="stationButton_Click"></Button>
+        </StackPanel>
 
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <TextBlock HorizontalAlignment="Center" FontSize="24">Rover Status</TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock>Curiosity:</TextBlock>
+                <TextBlock Name="curiosityStatus" Margin="0,0,20,0"></TextBlock>
+
+                <TextBlock>Opportunity:</TextBlock>
+                <TextBlock Name="opportunityStatus"  Margin="0,0,20,0"></TextBlock>
+            </StackPanel>
+        </StackPanel>
+
+        <TextBlock Grid.Row="2" FontSize="34" HorizontalAlignment="Center">Curiosity</TextBlock>
+        <Image Name="curiosityImage" Grid.Row="3"></Image>
+
+        <TextBlock Grid.Row="4" FontSize="34" HorizontalAlignment="Center">Opportunity</TextBlock>
+        <Image Name="opportunityImage" Grid.Row="5" ></Image>
+        
     </Grid>
 </Page>

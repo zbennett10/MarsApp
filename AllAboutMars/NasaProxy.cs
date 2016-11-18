@@ -13,12 +13,12 @@ namespace AllAboutMars
     class NasaProxy
     {
         //list of possible rovers: curiosity, opportunity, spirit
-        public async static Task<RootObject> GetNasaData() {
+        public async static Task<RootObject> GetNasaData(string rover, int maxSol) {
             var resources = new Windows.ApplicationModel.Resources.ResourceLoader("Resources");
             var token = resources.GetString("nasaToken");
 
             HttpClient http = new HttpClient();
-            var response = await http.GetAsync(String.Format("https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?max_date&api_key={0}",token));
+            var response = await http.GetAsync(String.Format("https://api.nasa.gov/mars-photos/api/v1/rovers/{0}/photos?sol={1}&api_key={2}",rover, maxSol, token));
             var result = await response.Content.ReadAsStringAsync();
             var serializer = new DataContractJsonSerializer(typeof(RootObject));
             var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(result));
