@@ -16,12 +16,17 @@
     </Page.Resources>
 
     <Grid Background="Gray">
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button Style="{StaticResource ButtonStyle}" Name="homeButton" Content="Home" Click="homeButton_Click"></Button>
             <Button Style="{StaticResource ButtonStyle}" Name="nasaButton" Content="NASA" Click="nasaButton_Click"></Button>
             <Button Style="{StaticResource ButtonStyle}" Name="spaceXButton" Content="SpaceX" Click="spaceXButton_Click"></Button>
             <Button Style="{StaticResource ButtonStyle}" Name="roversButton" Content="Rovers" Click="roversButton_Click"></Button>
             <Button Style="{StaticResource ButtonStyle}" Name="stationButton" Content="Station Map" Click="stationButton_Click"></Button>
         </StackPanel>
+        <TextBlock Name="test" Grid.Row="1"></TextBlock>
     </Grid>
 </Page>

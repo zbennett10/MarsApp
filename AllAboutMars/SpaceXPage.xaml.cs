@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace AllAboutMars
@@ -25,7 +26,36 @@ namespace AllAboutMars
         public SpaceXPage()
         {
             this.InitializeComponent();
+            Timer countdown = new Timer();
+            test.Text = countdown.CurrentTime.ToString();
+            
+            
         }
+
+        //2024
+        public class Timer
+        {    
+           //public DateTime Start { get; set; }
+           public TimeSpan CurrentTime { get; set; }
+           
+           public Timer()
+            {
+                this.CurrentTime = DateTime.Now.TimeOfDay;
+            }
+
+            //public static TimeSpan TimeDecrementer(DateTime time)
+           //{
+             //return time.
+           //}
+          
+        }
+
+
+        //add wikipedia viewer
+        //add twitter feed
+        //
+        
+
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {

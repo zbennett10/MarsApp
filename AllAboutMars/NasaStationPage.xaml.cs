@@ -13,6 +13,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Xml;
+using Windows.Web.Http;
+using System.Net;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -40,7 +43,26 @@ namespace AllAboutMars
             string bingKey = resource.GetString("mapToken");
             return bingKey;
         }
-        
+
+        //beginning of nasa ssc api call
+        //http://sscweb.sci.gsfc.nasa.gov/WS/sscr/2
+        public async void StationFetcher()
+        {
+            //XmlDocument doc = new XmlDocument();
+            //doc.Load(http://sscweb.sci.gsfc.nasa.gov/WS/sscr/2/groundStations);
+            //XmlElement root = doc.DocumentElement;
+           // HttpClient http = new HttpClient();
+            //var response = await http.GetAsync(new Uri("http://sscweb.sci.gsfc.nasa.gov/WS/sscr/2/groundStations"));
+            XmlDocument doc = new XmlDocument();
+            HttpWebRequest request = WebRequest.Create("http://sscweb.sci.gsfc.nasa.gov/WS/sscr/2/groundStations") as HttpWebRequest;
+            HttpWebResponse response = await request.GetResponseAsync() as HttpWebResponse;
+            doc.Load(response.GetResponseStream());
+            XmlNamespaceManager namespaceManager = new XmlNamespaceManager(doc.NameTable);
+            namespaceManager.AddNamespace("rest", "http://sscweb.gsfc.nasa.gov/schema");
+
+            XmlNodeList nodes = doc.
+
+        }
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
