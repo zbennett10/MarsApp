@@ -20,6 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition></RowDefinition>
+           
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button Style="{StaticResource ButtonStyle}" Name="homeButton" Content="Home" Click="homeButton_Click"></Button>
@@ -29,6 +30,9 @@
             <Button Style="{StaticResource ButtonStyle}" Name="stationButton" Content="Station Map" Click="stationButton_Click"></Button>
         </StackPanel>
 
-        <Maps:MapControl Grid.Row="1" Name="stationMap" ZoomLevel="1"></Maps:MapControl>
+        <Maps:MapControl Grid.Row="1" Name="stationMap" ZoomLevel="1">
+            
+        </Maps:MapControl>
+        
     </Grid>
 </Page>

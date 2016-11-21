@@ -16,6 +16,13 @@ using Windows.UI.Xaml.Navigation;
 using System.Xml;
 using Windows.Web.Http;
 using System.Net;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+using Windows.ApplicationModel;
+using Windows.Storage;
+using Windows.Devices.Geolocation;
+using Windows.UI.Xaml.Controls.Maps;
+
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,10 +39,44 @@ namespace AllAboutMars
             
         }
 
+        
+
         private void On_Page_Load(object sender, RoutedEventArgs e)
         {
             stationMap.MapServiceToken = Map_Key_Getter();
+            Pin_Populator(Point_Creator(Position_Creator(Station_Fetcher())));
+            
+           
         }
+
+        public List<BasicGeoposition> Position_Creator(List<Location> list)
+        {
+            List<BasicGeoposition> positionList = new List<BasicGeoposition>();
+            foreach(Location location in list)
+            {
+                positionList.Add(new BasicGeoposition { Latitude = Double.Parse(location.Latitude), Longitude = Double.Parse(location.Longitude) });
+            }
+            return positionList;
+        }
+
+        public List<Geopoint> Point_Creator(List<BasicGeoposition> positionList)
+        {
+            List<Geopoint> pointList = new List<Geopoint>();
+            foreach(BasicGeoposition position in positionList)
+            {
+                pointList.Add(new Geopoint(position));
+            }
+            return pointList;
+        }
+
+        public void Pin_Populator(List<Geopoint> points)
+        {
+            foreach(Geopoint point in points)
+            {
+                stationMap.MapElements.Add(new MapIcon { Location = point});
+            }
+        }
+
 
         public string Map_Key_Getter()
         {
@@ -44,24 +85,44 @@ namespace AllAboutMars
             return bingKey;
         }
 
-        //beginning of nasa ssc api call
-        //http://sscweb.sci.gsfc.nasa.gov/WS/sscr/2
-        public async void StationFetcher()
+        //[XmlRoot(ElementName = "Location", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
+        public class Location
         {
-            //XmlDocument doc = new XmlDocument();
-            //doc.Load(http://sscweb.sci.gsfc.nasa.gov/WS/sscr/2/groundStations);
-            //XmlElement root = doc.DocumentElement;
-           // HttpClient http = new HttpClient();
-            //var response = await http.GetAsync(new Uri("http://sscweb.sci.gsfc.nasa.gov/WS/sscr/2/groundStations"));
-            XmlDocument doc = new XmlDocument();
-            HttpWebRequest request = WebRequest.Create("http://sscweb.sci.gsfc.nasa.gov/WS/sscr/2/groundStations") as HttpWebRequest;
-            HttpWebResponse response = await request.GetResponseAsync() as HttpWebResponse;
-            doc.Load(response.GetResponseStream());
-            XmlNamespaceManager namespaceManager = new XmlNamespaceManager(doc.NameTable);
-            namespaceManager.AddNamespace("rest", "http://sscweb.gsfc.nasa.gov/schema");
+            //[XmlElement(ElementName = "Latitude", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
+            public string Latitude { get; set; }
+            //[XmlElement(ElementName = "Longitude", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
+            public string Longitude { get; set; }
+        }
 
-            XmlNodeList nodes = doc.
+        //[XmlRoot(ElementName = "GroundStation", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
+        public class GroundStation
+        {
+            //[XmlElement(ElementName = "Id", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
+            public string Id { get; set; }
+            //[XmlElement(ElementName = "Name", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
+            public string Name { get; set; }
+            //[XmlElement(ElementName = "Location", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
+            public Location Location { get; set; }
+        }
 
+        
+
+    
+        public List<Location> Station_Fetcher()
+        {
+            
+            XDocument loadedData = XDocument.Load("GroundStationInfo.xml");
+            var ns = loadedData.Root.GetDefaultNamespace();
+            
+            var locationData = from location in loadedData.Descendants(ns +"Location")
+                               select new Location
+                               {
+                                   Latitude = location.Element(ns + "Latitude").Value,
+                                   Longitude = location.Element(ns + "Longitude").Value
+                               };
+
+            return locationData.ToList();
+                
         }
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
