@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
+using HtmlAgilityPack;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -31,7 +32,51 @@ namespace AllAboutMars
         public SpaceXPage()
         {
             this.InitializeComponent();
+            Article_Fetcher();
+        }
+
+        //TODO - webscrape ReadArticle links from spacex page
+        //webscrape launch manifest spacex page
+        //countdown timer til we get to mars
+
+        private async void Article_Fetcher()
+        {
+            HttpClient client = new HttpClient();
+            var page = await client.GetStringAsync(new Uri("http://www.spacex.com/news"));
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(page);
+
+            var nodes = doc.DocumentNode.Descendants();
+            List<HtmlNode> aTags = new List<HtmlNode>();
+            foreach(var node in nodes)
+            {
+                if (node.Name == "a")
+                {
+                    aTags.Add(node);
+                }
+            }
+
             
+
+            foreach (var aTag in aTags)
+            {
+                if (aTag.InnerHtml == "Read article")
+                {
+                    Test.Items.Add("http://www.spacex.com/news" + aTag.Attributes["href"].Value);
+                    newsLinks.Add("http://www.spacex.com/news" + aTag.Attributes["href"].Value);
+                }
+            }
+           
+        }
+
+        public static List<string> newsLinks = new List<string>();
+
+        private async void Test_Selection_Changed(object sender, SelectionChangedEventArgs e)
+        {
+            int index = Test.SelectedIndex;
+            
+            var uri = new Uri(newsLinks[index]);
+            await Windows.System.Launcher.LaunchUriAsync(uri);
         }
 
         private void On_Page_Loaded(object sender, RoutedEventArgs e)

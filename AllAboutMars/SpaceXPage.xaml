@@ -19,6 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button Style="{StaticResource ButtonStyle}" Name="homeButton" Content="Home" Click="homeButton_Click"></Button>
@@ -50,5 +51,6 @@
             </StackPanel>
 
         </StackPanel>
+        <ListBox Name="Test" Grid.Row="2" SelectionChanged="Test_Selection_Changed"></ListBox>
     </Grid>
 </Page>

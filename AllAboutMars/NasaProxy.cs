@@ -24,7 +24,6 @@ namespace AllAboutMars
             var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(result));
             var data = (RootObject)serializer.ReadObject(memoryStream);
            
-
             return data;
         }
 
