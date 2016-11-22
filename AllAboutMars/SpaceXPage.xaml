@@ -5,7 +5,7 @@
     xmlns:local="using:AllAboutMars"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="On_Page_Loaded">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -18,7 +18,7 @@
     <Grid Background="Gray">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
         </Grid.RowDefinitions>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button Style="{StaticResource ButtonStyle}" Name="homeButton" Content="Home" Click="homeButton_Click"></Button>
@@ -27,6 +27,28 @@
             <Button Style="{StaticResource ButtonStyle}" Name="roversButton" Content="Rovers" Click="roversButton_Click"></Button>
             <Button Style="{StaticResource ButtonStyle}" Name="stationButton" Content="Station Map" Click="stationButton_Click"></Button>
         </StackPanel>
-        <TextBlock Name="test" Grid.Row="1"></TextBlock>
+        <StackPanel Name="weatherDataStack" Grid.Row="1" Orientation="Horizontal">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Width="70" Height="50" FontSize="18"> Sol:</TextBlock>
+                <TextBlock Name="solBlock" Height="50" FontSize="18" Text="1555"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Width="70" Height="50" FontSize="17"> MinTemp:</TextBlock>
+                <TextBlock Name="minTempBlock" Height="50" FontSize="18" Text="Temp"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Width="70" Height="50" FontSize="17"> MaxTemp:</TextBlock>
+                <TextBlock Name="maxTempBlock" Height="50" FontSize="18" Text="Temp"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Width="70" Height="50" FontSize="17"> Atmos:</TextBlock>
+                <TextBlock Name="atmosBlock" Height="50" FontSize="18" Text="Sunny"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Width="70" Height="50" FontSize="17"> Season</TextBlock>
+                <TextBlock Name="seasonBlock" Height="50" FontSize="18" Text="Month 9"></TextBlock>
+            </StackPanel>
+
+        </StackPanel>
     </Grid>
 </Page>
