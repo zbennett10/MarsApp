@@ -29,48 +29,37 @@ namespace AllAboutMars
     /// </summary>
     public sealed partial class SpaceXPage : Page
     {
+        public static List<string> newsLinks = new List<string>();
+
         public SpaceXPage()
         {
             this.InitializeComponent();
-            Article_Fetcher();
+            Document_Parser();
         }
 
-        //TODO - webscrape ReadArticle links from spacex page
+        //TODO - 
         //webscrape launch manifest spacex page
         //countdown timer til we get to mars
 
-        private async void Article_Fetcher()
+        
+
+        private async void Document_Parser()
         {
             HttpClient client = new HttpClient();
             var page = await client.GetStringAsync(new Uri("http://www.spacex.com/news"));
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(page);
-
-            var nodes = doc.DocumentNode.Descendants();
-            List<HtmlNode> aTags = new List<HtmlNode>();
-            foreach(var node in nodes)
+            var data = doc.DocumentNode.Descendants();
+            foreach(var node in data)
             {
-                if (node.Name == "a")
+                if (node.Name == "a" && node.InnerHtml == "Read article")
                 {
-                    aTags.Add(node);
+                    newsLinks.Add("http://www.spacex.com/news" + node.Attributes["href"].Value);
+                    Test.Items.Add("http://www.spacex.com/news" + node.Attributes["href"].Value);
                 }
-            }
-
-            
-
-            foreach (var aTag in aTags)
-            {
-                if (aTag.InnerHtml == "Read article")
-                {
-                    Test.Items.Add("http://www.spacex.com/news" + aTag.Attributes["href"].Value);
-                    newsLinks.Add("http://www.spacex.com/news" + aTag.Attributes["href"].Value);
-                }
-            }
-           
+            }   
         }
-
-        public static List<string> newsLinks = new List<string>();
-
+    
         private async void Test_Selection_Changed(object sender, SelectionChangedEventArgs e)
         {
             int index = Test.SelectedIndex;
