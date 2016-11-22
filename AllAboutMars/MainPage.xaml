@@ -5,7 +5,7 @@
     xmlns:local="using:AllAboutMars"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Loaded="OnMainPage_Load">
+    mc:Ignorable="d" Loaded="On_Page_Load">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -24,7 +24,7 @@
             <RowDefinition Height=".05*"></RowDefinition>
             <RowDefinition Height=".15*"></RowDefinition>
             <RowDefinition Height=".5*" ></RowDefinition>
-            <RowDefinition Height=".2*"></RowDefinition>
+            
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -36,21 +36,15 @@
         </StackPanel>
      
         <Image Grid.Column="1" Grid.Row="1" Source="Assets/logos/Logomakr_5G1xIF.png" HorizontalAlignment="Center" Width="300" Height="100" VerticalAlignment="Top" Margin="0,20,0,0"></Image>
-      
+
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <ScrollViewer  Name="twitterScroll" Grid.Row="2" Grid.Column="1" MaxHeight="335" Width="500" BorderBrush="Maroon" BorderThickness="5" Margin="0,0,0,0" HorizontalScrollBarVisibility="Visible">
+            <ScrollViewer  Name="twitterScroll" Grid.Row="2" Grid.Column="1" MaxHeight="500" Height="450" Width="500" BorderBrush="Maroon" BorderThickness="5" Margin="0,0,0,0" HorizontalScrollBarVisibility="Visible">
                 <StackPanel Name="twitterStack" >
                     <ListBox Name="twitterTest" SelectionChanged="twitterTest_SelectionChanged">
-                        
+
                     </ListBox>
                 </StackPanel>
             </ScrollViewer>
         </StackPanel>
-
-        <StackPanel Grid.Row="3" Grid.Column="1">
-            <TextBox Name="twitterSearchTextBox" Grid.Row="2" Height="50" BorderBrush="Maroon" BorderThickness="5"></TextBox>
-            <Button Name="twitterSearchButton" Click="twitterSearchButton_Click" Content="Search Twitter" HorizontalAlignment="Center" Background="Maroon" Foreground="Azure"></Button>
-        </StackPanel>
-        
     </Grid>
 </Page>

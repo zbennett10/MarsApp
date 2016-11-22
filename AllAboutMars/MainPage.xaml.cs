@@ -42,26 +42,42 @@ namespace AllAboutMars
 
         public List<Match> twitterLinks = new List<Match>();
 
-        private void OnMainPage_Load(object sender, RoutedEventArgs e)
+        private void On_Page_Load(object sender, RoutedEventArgs e)
+        {
+            Authorizer_Key_Populator();        
+            Link_List_Populator(Mars_Link_Fetcher(), Nasa_Link_Fetcher());
+            twitterTest.Items.Clear();
+            Search_Result_Mars_Fetcher().ForEach(tweet => twitterTest.Items.Add(tweet.User.Name + ":" + tweet.Text));
+            Search_Result_Nasa_Fetcher().ForEach(tweet => twitterTest.Items.Add(tweet.User.Name + ":" + tweet.Text)); 
+        }
+
+       private List<Status> Search_Result_Mars_Fetcher()
+        {
+            return SearchTwitter("Mars SpaceX");
+        }
+
+        private List<Status> Search_Result_Nasa_Fetcher()
+        {
+            return SearchTwitter("Nasa Mars");
+        }
+
+        private List<Match> Mars_Link_Fetcher()
+        {
+            return Link_Finder(Search_Result_Mars_Fetcher());
+        }
+
+        private List<Match> Nasa_Link_Fetcher()
+        {
+            return Link_Finder(Search_Result_Nasa_Fetcher());
+        }
+        
+       private void Authorizer_Key_Populator()
         {
             var resources = new Windows.ApplicationModel.Resources.ResourceLoader("Resources");
             authorizer.CredentialStore.ConsumerKey = resources.GetString("consumerToken");
             authorizer.CredentialStore.ConsumerSecret = resources.GetString("consumerSecret");
             authorizer.CredentialStore.OAuthToken = resources.GetString("accessToken");
             authorizer.CredentialStore.OAuthTokenSecret = resources.GetString("accessSecret");
-   
-            var resultsMars = SearchTwitter("Mars SpaceX");
-            var resultsNasa = SearchTwitter("Nasa Mars");
-
-            var marsLinks = Link_Finder(resultsMars);
-            var nasaLinks = Link_Finder(resultsNasa);
-
-            Link_List_Populator(marsLinks, nasaLinks);
-
-            twitterTest.Items.Clear();
-            resultsMars.ForEach(tweet => twitterTest.Items.Add(tweet.User.Name + ":" + tweet.Text));
-            resultsNasa.ForEach(tweet => twitterTest.Items.Add(tweet.User.Name + ":" + tweet.Text));
-            
         }
 
         private static List<Match> Link_Finder(List<Status> tweetList)
@@ -87,7 +103,7 @@ namespace AllAboutMars
                                            where search.Type == SearchType.Search &&
                                            search.Query == searchTerm &&
                                            search.ResultType ==  ResultType.Popular &&
-                                           search.Count == 5
+                                           search.Count == 7
                                            select search));
             if (srch != null && srch.Statuses.Count > 0)
             {
@@ -95,20 +111,9 @@ namespace AllAboutMars
             }
             return new List<Status>();
         }
-  
-        private void twitterSearchButton_Click(object sender, RoutedEventArgs e)
-        {
-           var searchResult =  SearchTwitter(twitterSearchTextBox.Text);
-            twitterTest.Items.Clear();
-            foreach (var tweet in searchResult)
-            {
-                twitterTest.Items.Add(tweet.User.Name + ":" + tweet.Text);
-            }
-        }
 
         private async void twitterTest_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //ListBoxItem lbi = ((sender as ListBox).SelectedItem as ListBoxItem);
             int selectedIndex = twitterTest.SelectedIndex;
             string uriToLaunch = twitterLinks[selectedIndex].ToString();
             var uri = new Uri(uriToLaunch);
@@ -141,37 +146,5 @@ namespace AllAboutMars
         {
             Frame.Navigate(typeof(NasaStationPage), null);
         }
-
-
-
-
-
-        //private List<Status> list;
-
-        //private void GetMostRecent10HomeTimeLine()
-        //{
-        //    var twitterContext = new TwitterContext(authorizer);
-
-
-        //    var tweets = from tweet in twitterContext.Status
-        //                 where tweet.Type == StatusType.Home &&
-        //                 tweet.Count == 5
-        //                 select tweet;
-
-        //    list = tweets.ToList();
-        //}
-
-        //private async void testNasaButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //goes up to at least photos[500]
-        //    NasaProxy.RootObject data = await NasaProxy.GetNasaData();
-        //    BitmapImage image = new BitmapImage(new Uri(data.photos[5].img_src));
-
-        //    testImage.Source = image;
-        //    //nasaTest.Text = data.photos[0].camera.full_name;
-        //    //nasaTest.Text = data.photos[5].rover.name;
-
-        //}
-
     }
 }

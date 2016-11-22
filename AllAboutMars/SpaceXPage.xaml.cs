@@ -40,9 +40,7 @@ namespace AllAboutMars
         //TODO - 
         //webscrape launch manifest spacex page
         //countdown timer til we get to mars
-
-        
-
+       
         private async void Document_Parser()
         {
             HttpClient client = new HttpClient();
@@ -63,7 +61,6 @@ namespace AllAboutMars
         private async void Test_Selection_Changed(object sender, SelectionChangedEventArgs e)
         {
             int index = Test.SelectedIndex;
-            
             var uri = new Uri(newsLinks[index]);
             await Windows.System.Launcher.LaunchUriAsync(uri);
         }
