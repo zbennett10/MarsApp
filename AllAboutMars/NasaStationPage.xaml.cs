@@ -23,7 +23,6 @@ using Windows.Storage;
 using Windows.Devices.Geolocation;
 using Windows.UI.Xaml.Controls.Maps;
 
-
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace AllAboutMars
@@ -39,33 +38,47 @@ namespace AllAboutMars
             
         }
 
+        //TODO
+        //pull recent text from http://www.planet4589.org/space/jsr/jsr.html (data about recent space happening/launches around world)
+
+        //http://www.celestrak.com/NORAD/documentation/tle-fmt.asp norad two-line element set format pulling data from satellites 
+
+        //String.Format("http://ws.geonames.org/countryCode?lat={0}&lng={1}&username=zbennett10",lat, lon)
+
+        //figure out how to use geometry and trajectory urls for /spaseObservatories call to SSC
 
 
+        //populates map control on page load
         private void On_Page_Load(object sender, RoutedEventArgs e)
         {
             stationMap.MapServiceToken = Map_Key_Getter();
-            stationNames = new List<string>();
-            Station_Name_Fetcher();
             Pin_Populator(Point_Creator(Position_Creator(Station_Location_Fetcher())));
-            List<MapIcon> iconList = new List<MapIcon>();
+            MapIcon_Name_Populator(MapIcon_Populator(), Station_Name_Fetcher());
+        }
 
-            for (int i = 0; i < stationMap.MapElements.Count; i++)
+      //gets list of every map element that is a map icon;
+       private List<MapIcon> MapIcon_Populator()
+        {
+            List<MapIcon> icons = new List<MapIcon>();
+            for(int i = 0; i < stationMap.MapElements.Count; i++)
             {
-                if (stationMap.MapElements[i] is MapIcon)
-                {
-                    iconList.Add((MapIcon)stationMap.MapElements[i]);
-                }
+                if (stationMap.MapElements[i] is MapIcon) icons.Add((MapIcon)stationMap.MapElements[i]);
             }
-            for (int i = 0; i < iconList.Count; i++)
+            return icons;
+        }
+
+        //sets every map icon's title prop in sequential order with its corresponding station name
+        private void MapIcon_Name_Populator(List<MapIcon> icons, List<string> names)
+        {
+            for (int i = 0; i < icons.Count; i++)
             {
-                iconList[i].Title = stationNames[i];
+                icons[i].Title = names[i];
             }
-           
         }
 
 
-
-        public List<BasicGeoposition> Position_Creator(List<Location> list)
+        //converts latitude and longitude of ground station to geoposition
+        private List<BasicGeoposition> Position_Creator(List<Location> list)
         {
             List<BasicGeoposition> positionList = new List<BasicGeoposition>();
             foreach(Location location in list)
@@ -75,7 +88,8 @@ namespace AllAboutMars
             return positionList;
         }
 
-        public List<Geopoint> Point_Creator(List<BasicGeoposition> positionList)
+        //converts geoposition to point on bing map
+        private List<Geopoint> Point_Creator(List<BasicGeoposition> positionList)
         {
             List<Geopoint> pointList = new List<Geopoint>();
             foreach(BasicGeoposition position in positionList)
@@ -86,51 +100,39 @@ namespace AllAboutMars
         }
 
         
-
-        public void Pin_Populator(List<Geopoint> points)
+        //populates map with point markers
+        private void Pin_Populator(List<Geopoint> points)
         {   
             foreach(Geopoint point in points)
             {
-                stationMap.MapElements.Add(new MapIcon { Location = point});
-                
-            }
-
-
-
-            
+                stationMap.MapElements.Add(new MapIcon { Location = point});    
+            } 
         }
 
-
-        public string Map_Key_Getter()
+        //fetches bing map key
+        private string Map_Key_Getter()
         {
             ResourceLoader resource = new ResourceLoader("Resources");
             string bingKey = resource.GetString("mapToken");
             return bingKey;
         }
 
-        //[XmlRoot(ElementName = "Location", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
-        public class Location
-        {
-            //    //[XmlElement(ElementName = "Latitude", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
+       
+        //Data structures to hold ground station data
+        private class Location
+        { 
             public string Latitude { get; set; }
-            //    //[XmlElement(ElementName = "Longitude", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
             public string Longitude { get; set; }
         }
 
-        //[XmlRoot(ElementName = "GroundStation", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
-        public class GroundStation
+        private class GroundStation
         {
-            //[XmlElement(ElementName = "Id", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
             public string Id { get; set; }
-            //[XmlElement(ElementName = "Name", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
-            public string Name { get; set; }
-            //[XmlElement(ElementName = "Location", Namespace = "http://sscweb.gsfc.nasa.gov/schema")]
-            //public Location Location { get; set; }
-            
+            public string Name { get; set; }  
         }
 
-        
-        public List<Location> Station_Location_Fetcher()
+        //fetches latitude and longitude data of every station in xml document
+        private List<Location> Station_Location_Fetcher()
         {
             XDocument loadedData = XDocument.Load("GroundStationInfo.xml");
             var ns = loadedData.Root.GetDefaultNamespace();
@@ -145,9 +147,12 @@ namespace AllAboutMars
             return locationData.ToList();
         }
 
-        public static List<string> stationNames;
+        //global variable that hold station name data
+        //public static List<string> stationNames;
     
-        public void Station_Name_Fetcher()
+        //fetches every station name from xml document
+        //populates stationNames global list
+        private List<string> Station_Name_Fetcher()
         {
 
             XDocument loadedData = XDocument.Load("GroundStationInfo.xml");
@@ -158,30 +163,15 @@ namespace AllAboutMars
                                {
                                    Name = station.Element(ns + "Name").Value
                                };
-
+            List<string> list = new List<string>();
             foreach(GroundStation station in nameData)
             {
-                stationNames.Add(station.Name);
+                list.Add(station.Name);
             }
-           
+            return list;
         }
 
-        //private void Station_Name_Fetcher()
-        //{
-        //    XDocument loadedData = XDocument.Load("GroundStationInfo.xml");
-        //    var ns = loadedData.Root.GetDefaultNamespace();
-        //    var stationData = from station in loadedData.Descendants(ns + "GroundStation")
-        //                   select new GroundStation
-        //                   {
-        //                       Name = station.Element("Name").Value
-        //                   };
-        //    List<GroundStation> list = stationData.ToList();
-        //    foreach(GroundStation station in list)
-        //    {
-        //        stationList.Add(station);
-        //    }
-        //}
-
+        //navigation buttons
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage), null);
