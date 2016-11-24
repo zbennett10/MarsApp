@@ -99,11 +99,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NasaApodProxy.cs" />
     <Compile Include="NasaPage.xaml.cs">
       <DependentUpon>NasaPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NasaProxy.cs" />
     <Compile Include="NasaStationPage.xaml.cs">
       <DependentUpon>NasaStationPage.xaml</DependentUpon>
     </Compile>

@@ -35,17 +35,17 @@ namespace AllAboutMars
         public NasaStationPage()
         {
             this.InitializeComponent();
-            
         }
 
-        //TODO
+        //TODO General
         //pull recent text from http://www.planet4589.org/space/jsr/jsr.html (data about recent space happening/launches around world)
 
         //http://www.celestrak.com/NORAD/documentation/tle-fmt.asp norad two-line element set format pulling data from satellites 
 
-        //String.Format("http://ws.geonames.org/countryCode?lat={0}&lng={1}&username=zbennett10",lat, lon)
-
         //figure out how to use geometry and trajectory urls for /spaseObservatories call to SSC
+
+        //TODO This page
+        //add flag icons instead of pins
 
 
         //populates map control on page load
@@ -134,6 +134,8 @@ namespace AllAboutMars
         //fetches latitude and longitude data of every station in xml document
         private List<Location> Station_Location_Fetcher()
         {
+            //work on switching this over to XmlReader
+           
             XDocument loadedData = XDocument.Load("GroundStationInfo.xml");
             var ns = loadedData.Root.GetDefaultNamespace();
 

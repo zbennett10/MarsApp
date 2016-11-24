@@ -20,6 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition></RowDefinition>
+          
            
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -33,6 +34,6 @@
         <Maps:MapControl Grid.Row="1" Name="stationMap" ZoomLevel="1">
             
         </Maps:MapControl>
-        
+
     </Grid>
 </Page>

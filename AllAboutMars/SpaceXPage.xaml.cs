@@ -29,6 +29,14 @@ namespace AllAboutMars
     /// </summary>
     public sealed partial class SpaceXPage : Page
     {
+
+        //TODO This page
+        //webscrape launch manifest spacex page
+        //countdown timer til we get to mars
+        //Change listbox to show name of article instead of URL
+        //Change listbox to display the month the article was posted next to the article name
+
+
         public static List<string> newsLinks = new List<string>();
 
         public SpaceXPage()
@@ -37,9 +45,6 @@ namespace AllAboutMars
             Document_Parser();
         }
 
-        //TODO - 
-        //webscrape launch manifest spacex page
-        //countdown timer til we get to mars
        
         private async void Document_Parser()
         {

@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -25,6 +30,10 @@ namespace AllAboutMars
     /// </summary>
     public sealed partial class RoverPage : Page
     {
+        //TODO This page
+        //Create a view that is populated by curiosity rover images.
+        //implement user-selected filters to view
+
         public RoverPage()
         {
             this.InitializeComponent();
@@ -43,22 +52,22 @@ namespace AllAboutMars
 
         private async void Status_Populator()
         {
-            NasaProxy.RootObject curiosityData = await NasaProxy.GetNasaData("curiosity", 1514);
-            NasaProxy.RootObject opportunityData = await NasaProxy.GetNasaData("opportunity", 2207);
+            RootObject curiosityData = await GetNasaData("curiosity", 1514);
+            RootObject opportunityData = await GetNasaData("opportunity", 2207);
             curiosityStatus.Text = curiosityData.photos[0].rover.status;
             opportunityStatus.Text = opportunityData.photos[0].rover.status;
         }
 
         private async void Curiosity_Image_Populator()
         {
-            NasaProxy.RootObject curiosityData = await NasaProxy.GetNasaData("curiosity", 1514);
+            RootObject curiosityData = await GetNasaData("curiosity", 1514);
             BitmapImage image = new BitmapImage(new Uri(curiosityData.photos[0].img_src));
             curiosityImage.Source = image;
         }
 
        private async void Opportunity_Image_Populator()
         {
-            NasaProxy.RootObject opportunityData = await NasaProxy.GetNasaData("opportunity", 2207);
+            RootObject opportunityData = await GetNasaData("opportunity", 2207);
             BitmapImage image = new BitmapImage(new Uri(opportunityData.photos[0].img_src));
             opportunityImage.Source = image;
         }
@@ -87,6 +96,107 @@ namespace AllAboutMars
         private void stationButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(NasaStationPage), null);
+        }
+
+        public async static Task<RootObject> GetNasaData(string rover, int maxSol)
+        {
+            var resources = new Windows.ApplicationModel.Resources.ResourceLoader("Resources");
+            var token = resources.GetString("nasaToken");
+
+            HttpClient http = new HttpClient();
+            var response = await http.GetAsync(String.Format("https://api.nasa.gov/mars-photos/api/v1/rovers/{0}/photos?sol={1}&api_key={2}", rover, maxSol, token));
+            var result = await response.Content.ReadAsStringAsync();
+            var serializer = new DataContractJsonSerializer(typeof(RootObject));
+            var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(result));
+            var data = (RootObject)serializer.ReadObject(memoryStream);
+
+            return data;
+        }
+
+        [DataContract]
+        public class Camera
+        {
+            [DataMember]
+            public int id { get; set; }
+
+            [DataMember]
+            public string name { get; set; }
+
+            [DataMember]
+            public int rover_id { get; set; }
+
+            [DataMember]
+            public string full_name { get; set; }
+        }
+
+        [DataContract]
+        public class Camera2
+        {
+            [DataMember]
+            public string name { get; set; }
+
+            [DataMember]
+            public string full_name { get; set; }
+        }
+
+        [DataContract]
+        public class Rover
+        {
+            [DataMember]
+            public int id { get; set; }
+
+            [DataMember]
+            public string name { get; set; }
+
+            [DataMember]
+            public string landing_date { get; set; }
+
+            [DataMember]
+            public string launch_date { get; set; }
+
+            [DataMember]
+            public string status { get; set; }
+
+            [DataMember]
+            public int max_sol { get; set; }
+
+            [DataMember]
+            public string max_date { get; set; }
+
+            [DataMember]
+            public int total_photos { get; set; }
+
+            [DataMember]
+            public List<Camera2> cameras { get; set; }
+        }
+
+        [DataContract]
+        public class Photo
+        {
+            [DataMember]
+            public int id { get; set; }
+
+            [DataMember]
+            public int sol { get; set; }
+
+            [DataMember]
+            public Camera camera { get; set; }
+
+            [DataMember]
+            public string img_src { get; set; }
+
+            [DataMember]
+            public string earth_date { get; set; }
+
+            [DataMember]
+            public Rover rover { get; set; }
+        }
+
+        [DataContract]
+        public class RootObject
+        {
+            [DataMember]
+            public List<Photo> photos { get; set; }
         }
     }
 }

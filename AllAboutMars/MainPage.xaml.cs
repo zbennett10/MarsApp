@@ -26,11 +26,17 @@ namespace AllAboutMars
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        //TODO
+        //try to implement xmlreader instead of xdocument
+        //change search to get a set amount of recent tweets from differ user tweet history
+        //-NASA, SpaceX, National Geographic, Space.com
+        //edit display to show a scrollviewer/listbox for each username
+        //display username above scrollviwer and edit out http part of tweet so that only message shows
+
 
         public MainPage()
         {
             this.InitializeComponent();
-
         }
 
         private static SingleUserAuthorizer authorizer = new SingleUserAuthorizer
