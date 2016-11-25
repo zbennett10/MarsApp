@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Logos\Logomakr_5G1xIF.png" />
+    <Content Include="Assets\Logos\Twitter_Logo_White_On_Image.png" />
     <Content Include="GroundStationInfo.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

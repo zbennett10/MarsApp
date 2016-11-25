@@ -38,20 +38,34 @@
         <Image Grid.Column="1" Grid.Row="1" Source="Assets/logos/Logomakr_5G1xIF.png" HorizontalAlignment="Center" Width="300" Height="100" VerticalAlignment="Top" Margin="0,20,0,0"></Image>
 
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center">
-            <ScrollViewer  Name="spaceXScroll"  Height="200"  Width="500" BorderBrush="Maroon" BorderThickness="5" Margin="0,0,0,0" HorizontalScrollBarVisibility="Visible">
-                <StackPanel Name="spaceXStack" >
-                    <ListBox Name="spaceXLB" SelectionChanged="spaceXLB_SelectionChanged">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Width="18" Margin="0,0,0,0" Text="SpaceX" TextWrapping="Wrap" FontSize="20"></TextBlock>
+                    <Image Name="spaceXImage" PointerEntered="spaceXImage_Pointer_Entered"  PointerExited="spaceXImage_Pointer_Exited" Tapped="spaceXImage_On_Tapped"  Margin="0,0,10,0" Width="30" Height="40" Source="Assets/Logos/Twitter_Logo_White_On_Image.png"></Image>
+                </StackPanel>
+                
+                <ScrollViewer  Name="spaceXScroll"  Height="200"  Width="500"  BorderBrush="Maroon" BorderThickness="5" Margin="0,0,0,0" HorizontalScrollBarVisibility="Visible">
+                    <StackPanel Name="spaceXStack" >
+                        <ListBox Name="spaceXLB" SelectionChanged="spaceXLB_SelectionChanged">
 
-                    </ListBox>
+                        </ListBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Width="18" Margin="0,55,0,0" Text="NASA" TextWrapping="Wrap" FontSize="20"></TextBlock>
+                    <Image Name="nasaImage" PointerEntered="nasaImage_Pointer_Entered" PointerExited="nasaImage_Pointer_Exited" Tapped="nasaImage_On_Tapped" Margin="0,0,10,0" Width="30" Height="40" Source="Assets/Logos/Twitter_Logo_White_On_Image.png"></Image>
                 </StackPanel>
-            </ScrollViewer>
-            <ScrollViewer Name="nasaScroll" Height="200" Width="500" BorderBrush="Maroon" BorderThickness="5" Margin="0,10,0,0" HorizontalScrollBarVisibility="Visible">
-                <StackPanel Name="nasaStack">
-                    <ListBox Name="nasaLB" SelectionChanged="nasaLB_SelectionChanged">
+                
+                <ScrollViewer Name="nasaScroll" Height="200" Width="500" BorderBrush="Maroon" BorderThickness="5" Margin="0,20,0,0" HorizontalScrollBarVisibility="Visible">
+                    <StackPanel Name="nasaStack">
+                        <ListBox Name="nasaLB" SelectionChanged="nasaLB_SelectionChanged">
                         
-                    </ListBox>
-                </StackPanel>
-            </ScrollViewer>
+                        </ListBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>

@@ -1,22 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using LinqToTwitter;
 using System.Text.RegularExpressions;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -29,7 +17,7 @@ namespace AllAboutMars
     {
         //TODO
         //try to implement xmlreader instead of xdocument
-        //display username above scrollviwer and edit out http part of tweet so that only message shows
+        //implement tweet media viewer
 
         public MainPage()
         {
@@ -51,8 +39,8 @@ namespace AllAboutMars
             Authorizer_Key_Populator();        
             Link_List_Populator(SpaceX_Link_Fetcher(), Nasa_Link_Fetcher());
             spaceXLB.Items.Clear();
-            Timeline_Fetcher("SpaceX").ForEach(tweet => spaceXLB.Items.Add(tweet.User.Name + ":" + tweet.Text));
-            Timeline_Fetcher("Nasa").ForEach(tweet => nasaLB.Items.Add(tweet.User.Name + ":" + tweet.Text)); 
+            Timeline_Fetcher("SpaceX").ForEach(tweet => spaceXLB.Items.Add((new Regex(@"\b(?:https?:)\S+\b")).Replace(tweet.Text, "")));
+            Timeline_Fetcher("Nasa").ForEach(tweet => nasaLB.Items.Add((new Regex(@"\b(?:https?:)\S+\b")).Replace(tweet.Text, ""))); 
         }
 
         private List<Match> SpaceX_Link_Fetcher()
@@ -115,6 +103,34 @@ namespace AllAboutMars
             await Windows.System.Launcher.LaunchUriAsync(uri);
         }
 
+        private async void spaceXImage_On_Tapped(object sender, RoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://twitter.com/spaceX"));
+        }
+
+        private void spaceXImage_Pointer_Entered(object sender, RoutedEventArgs e)
+        {
+            spaceXImage.Opacity = .5;
+        }
+        private void spaceXImage_Pointer_Exited(object sender, RoutedEventArgs e)
+        {
+            spaceXImage.Opacity = 1.0;
+        }
+
+        private async void nasaImage_On_Tapped(object sender, RoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://twitter.com/Nasa"));
+        }
+
+        private void nasaImage_Pointer_Entered(object sender, RoutedEventArgs e)
+        {
+            nasaImage.Opacity = .5;
+        }
+        private void nasaImage_Pointer_Exited(object sender, RoutedEventArgs e)
+        {
+            nasaImage.Opacity = 1.0;
+        }
+
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage), null);
@@ -138,6 +154,11 @@ namespace AllAboutMars
         private void stationButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(NasaStationPage), null);
+        }
+
+        private void spaceXImage_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+
         }
     }
 }
