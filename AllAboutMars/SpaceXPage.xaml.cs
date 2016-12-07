@@ -39,10 +39,13 @@ namespace AllAboutMars
 
         public static List<string> newsLinks = new List<string>();
 
+      
+
         public SpaceXPage()
         {
             this.InitializeComponent();
             Document_Parser();
+            
         }
 
        
@@ -59,6 +62,7 @@ namespace AllAboutMars
                 {
                     newsLinks.Add("http://www.spacex.com/news" + node.Attributes["href"].Value);
                     Test.Items.Add("http://www.spacex.com/news" + node.Attributes["href"].Value);
+                    
                 }
             }   
         }
@@ -78,12 +82,11 @@ namespace AllAboutMars
         private async void Weather_Data_Populator()
         {
             RootObject data = await Get_Weather_Data();
-            solBlock.Text = data.report.sol.ToString();
-            maxTempBlock.Text = data.report.max_temp.ToString();
-            minTempBlock.Text = data.report.min_temp.ToString();
-            seasonBlock.Text = data.report.season;
-            atmosBlock.Text = data.report.atmo_opacity;
-
+            
+                solBlock.Text = data.report.sol.ToString();
+                maxTempBlock.Text = data.report.max_temp.ToString() + "°F";
+                minTempBlock.Text = data.report.min_temp.ToString() + "°F";          
+                atmosBlock.Text = data.report.atmo_opacity;
         }
         
 
@@ -104,19 +107,9 @@ namespace AllAboutMars
             Frame.Navigate(typeof(MainPage), null);
         }
 
-        private void nasaButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(NasaPage), null);
-        }
-
         private void spaceXButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SpaceXPage), null);
-        }
-
-        private void roversButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(RoverPage), null);
         }
 
         private void stationButton_Click(object sender, RoutedEventArgs e)

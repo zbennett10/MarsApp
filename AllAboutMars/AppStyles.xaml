@@ -4,7 +4,7 @@
     xmlns:local="using:AllAboutMars">
 
     <Style x:Key="ButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="Gray">
+        <Setter Property="Background" Value="SaddleBrown">
         </Setter>
     </Style>
 

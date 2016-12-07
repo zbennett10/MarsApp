@@ -99,16 +99,10 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NasaPage.xaml.cs">
-      <DependentUpon>NasaPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="NasaStationPage.xaml.cs">
       <DependentUpon>NasaStationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoverPage.xaml.cs">
-      <DependentUpon>RoverPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SpaceXPage.xaml.cs">
       <DependentUpon>SpaceXPage.xaml</DependentUpon>
     </Compile>
@@ -148,15 +142,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="NasaPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="NasaStationPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RoverPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

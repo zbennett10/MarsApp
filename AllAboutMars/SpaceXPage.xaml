@@ -15,42 +15,51 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="Gray">
+    <Grid Background="Peru">
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button Style="{StaticResource ButtonStyle}" Name="homeButton" Content="Home" Click="homeButton_Click"></Button>
-            <Button Style="{StaticResource ButtonStyle}" Name="nasaButton" Content="NASA" Click="nasaButton_Click"></Button>
             <Button Style="{StaticResource ButtonStyle}" Name="spaceXButton" Content="SpaceX" Click="spaceXButton_Click"></Button>
-            <Button Style="{StaticResource ButtonStyle}" Name="roversButton" Content="Rovers" Click="roversButton_Click"></Button>
             <Button Style="{StaticResource ButtonStyle}" Name="stationButton" Content="Station Map" Click="stationButton_Click"></Button>
         </StackPanel>
-        <StackPanel Name="weatherDataStack" Grid.Row="1" Orientation="Horizontal">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Width="70" Height="50" FontSize="18"> Sol:</TextBlock>
-                <TextBlock Name="solBlock" Height="50" FontSize="18" Text="1555"></TextBlock>
+        <StackPanel Name="weatherDataStack" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel>
+                <TextBlock FontSize="18" Width="20" Height="100" TextWrapping="Wrap" Margin="0,0,10,0">MARS</TextBlock>
             </StackPanel>
             <StackPanel Orientation="Vertical">
-                <TextBlock Width="70" Height="50" FontSize="17"> MinTemp:</TextBlock>
-                <TextBlock Name="minTempBlock" Height="50" FontSize="18" Text="Temp"></TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Width="70" Height="50" FontSize="17"> MaxTemp:</TextBlock>
-                <TextBlock Name="maxTempBlock" Height="50" FontSize="18" Text="Temp"></TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Width="70" Height="50" FontSize="17"> Atmos:</TextBlock>
-                <TextBlock Name="atmosBlock" Height="50" FontSize="18" Text="Sunny"></TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Width="70" Height="50" FontSize="17"> Season</TextBlock>
-                <TextBlock Name="seasonBlock" Height="50" FontSize="18" Text="Month 9"></TextBlock>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                    <TextBlock  Height="50" FontSize="17" HorizontalAlignment="Center" Margin="0,0,5,0" FontWeight="Bold"> Sol:</TextBlock>
+                    <TextBlock Name="solBlock" Height="50" FontSize="17" Text="1555" HorizontalAlignment="Center"></TextBlock>
 
+                        <TextBlock  Height="50" FontSize="17" HorizontalAlignment="Center" Margin="20,0,0,0" FontWeight="Bold"> Weather:</TextBlock>
+                    <TextBlock Name="atmosBlock" Height="50" FontSize="17" Text="Sunny" HorizontalAlignment="Center" Margin="5,0,0,0"></TextBlock>
+                </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock  Height="50" FontSize="17"  Margin="0,0,5,0" FontWeight="Bold"> Low:</TextBlock>
+                    <TextBlock Name="minTempBlock" Height="50" FontSize="17" Text="Temp" HorizontalAlignment="Center"></TextBlock>
+
+                    <TextBlock  Height="50" FontSize="17" Margin="20,0,0,0" FontWeight="Bold"> High:</TextBlock>
+                    <TextBlock Name="maxTempBlock" Height="50" FontSize="17" Text="Temp" HorizontalAlignment="Center" Margin="5,0,0,0"></TextBlock>
+                </StackPanel>
+            
+
+                
+            </StackPanel>
         </StackPanel>
-        <ListBox Name="Test" Grid.Row="2" SelectionChanged="Test_Selection_Changed"></ListBox>
+
+        <TextBlock Grid.Row="2" FontFamily="Verdana" FontSize="24" HorizontalAlignment="Center">Current SpaceX News</TextBlock>
+        
+        <ScrollViewer Grid.Row="3" HorizontalScrollBarVisibility="Visible" Margin="20,0,20,0" BorderBrush="SaddleBrown" BorderThickness="5">
+            <ListBox Name="Test" SelectionChanged="Test_Selection_Changed" Background="LightGray" Foreground="Black"></ListBox>
+        </ScrollViewer>
+        
     </Grid>
 </Page>
