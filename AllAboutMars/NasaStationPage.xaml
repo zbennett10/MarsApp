@@ -16,10 +16,11 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="Gray">
+    <Grid Background="Peru">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="600"></RowDefinition>
           
            
         </Grid.RowDefinitions>
@@ -29,7 +30,9 @@
             <Button Style="{StaticResource ButtonStyle}" Name="stationButton" Content="Station Map" Click="stationButton_Click"></Button>
         </StackPanel>
 
-        <Maps:MapControl Grid.Row="1" Name="stationMap" ZoomLevel="1">
+        <TextBlock Grid.Row="1" TextAlignment="Center" VerticalAlignment="Bottom" FontSize="24">NASA Ground Stations</TextBlock>
+
+        <Maps:MapControl Grid.Row="2" Name="stationMap" ZoomLevel="1">
             
         </Maps:MapControl>
 
