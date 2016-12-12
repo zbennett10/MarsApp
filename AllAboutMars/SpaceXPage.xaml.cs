@@ -36,19 +36,27 @@ namespace AllAboutMars
         //Change listbox to show name of article instead of URL
         //Change listbox to display the month the article was posted next to the article name
 
-
-        public static List<string> newsLinks = new List<string>();
-
-      
-
         public SpaceXPage()
         {
             this.InitializeComponent();
             Document_Parser();
-            
+            Weather_Data_Populator();
         }
 
-       
+        public static List<string> newsLinks = new List<string>();
+
+        //populates page controls with Mars weather data
+        private async void Weather_Data_Populator()
+        {
+            RootObject data = await Get_Weather_Data();
+
+            solBlock.Text = data.report.sol.ToString();
+            maxTempBlock.Text = data.report.max_temp.ToString() + "°F";
+            minTempBlock.Text = data.report.min_temp.ToString() + "°F";
+            atmosBlock.Text = data.report.atmo_opacity;
+        }
+
+        //SpaceX Blog Scraper
         private async void Document_Parser()
         {
             HttpClient client = new HttpClient();
@@ -58,6 +66,7 @@ namespace AllAboutMars
             var data = doc.DocumentNode.Descendants();
             foreach(var node in data)
             {
+                //finds every node on page that is a link containing the appropriate string value
                 if (node.Name == "a" && node.InnerHtml == "Read article")
                 {
                     newsLinks.Add("http://www.spacex.com/news" + node.Attributes["href"].Value);
@@ -66,41 +75,15 @@ namespace AllAboutMars
                 }
             }   
         }
-    
+
+        #region SpaceXPage Event Handlers
+
         private async void Test_Selection_Changed(object sender, SelectionChangedEventArgs e)
         {
             int index = Test.SelectedIndex;
             var uri = new Uri(newsLinks[index]);
             await Windows.System.Launcher.LaunchUriAsync(uri);
         }
-
-        private void On_Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            Weather_Data_Populator();
-        }
-
-        private async void Weather_Data_Populator()
-        {
-            RootObject data = await Get_Weather_Data();
-            
-                solBlock.Text = data.report.sol.ToString();
-                maxTempBlock.Text = data.report.max_temp.ToString() + "°F";
-                minTempBlock.Text = data.report.min_temp.ToString() + "°F";          
-                atmosBlock.Text = data.report.atmo_opacity;
-        }
-        
-
-        private async Task<RootObject> Get_Weather_Data()
-        {
-            HttpClient client = new HttpClient();
-            var response = await client.GetAsync(new Uri("http://marsweather.ingenology.com/v1/latest/?format=json"));
-            var result = await response.Content.ReadAsStringAsync();
-            var serializer = new DataContractJsonSerializer(typeof(RootObject));
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(result));
-            var data = (RootObject)serializer.ReadObject(stream);
-            return data;
-        }
-
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -116,7 +99,20 @@ namespace AllAboutMars
         {
             Frame.Navigate(typeof(NasaStationPage), null);
         }
+        #endregion
 
+        #region NASA API JSON-Object Mapper
+
+        private async Task<RootObject> Get_Weather_Data()
+        {
+            HttpClient client = new HttpClient();
+            var response = await client.GetAsync(new Uri("http://marsweather.ingenology.com/v1/latest/?format=json"));
+            var result = await response.Content.ReadAsStringAsync();
+            var serializer = new DataContractJsonSerializer(typeof(RootObject));
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(result));
+            var data = (RootObject)serializer.ReadObject(stream);
+            return data;
+        }
 
         //mars weather data class structure
         [DataContract]
@@ -177,5 +173,6 @@ namespace AllAboutMars
             [DataMember]
             public Report report { get; set; }
         }
+        #endregion
     }
 }

@@ -15,15 +15,18 @@ namespace AllAboutMars
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        //TODO
-        //try to implement xmlreader instead of xdocument
-        //implement tweet media viewer
+        //TODO ----
+        // Implement twitter media viewer that pops up in a window
 
         public MainPage()
         {
             this.InitializeComponent();
         }
 
+        #region Twitter API Functionality 
+        //twitter API functionality
+
+        //instantiates user authentication for use with Twitter API
         private static SingleUserAuthorizer authorizer = new SingleUserAuthorizer
         {
             CredentialStore = new SingleUserInMemoryCredentialStore
@@ -31,17 +34,33 @@ namespace AllAboutMars
             }
         };
 
-        public List<Match> spaceXLinks = new List<Match>();
-        public List<Match> nasaLinks = new List<Match>();
-
-        private void On_Page_Load(object sender, RoutedEventArgs e)
+        private void Authorizer_Key_Populator()
         {
-            Authorizer_Key_Populator();        
-            Link_List_Populator(SpaceX_Link_Fetcher(), Nasa_Link_Fetcher());
-            spaceXLB.Items.Clear();
-            Timeline_Fetcher("SpaceX").ForEach(tweet => spaceXLB.Items.Add((new Regex(@"\b(?:https?:)\S+\b")).Replace(tweet.Text, "")));
-            Timeline_Fetcher("Nasa").ForEach(tweet => nasaLB.Items.Add((new Regex(@"\b(?:https?:)\S+\b")).Replace(tweet.Text, ""))); 
+            var resources = new Windows.ApplicationModel.Resources.ResourceLoader("Resources");
+            authorizer.CredentialStore.ConsumerKey = resources.GetString("consumerToken");
+            authorizer.CredentialStore.ConsumerSecret = resources.GetString("consumerSecret");
+            authorizer.CredentialStore.OAuthToken = resources.GetString("accessToken");
+            authorizer.CredentialStore.OAuthTokenSecret = resources.GetString("accessSecret");
         }
+
+        private static List<Status> Timeline_Fetcher(string user)
+        {
+            using (var twitterContext = new TwitterContext(authorizer))
+            {
+                var tweets = (from tweet in twitterContext.Status
+                              where tweet.Type == StatusType.User
+                              && tweet.ScreenName == user
+                              && tweet.Count == 10
+                              select tweet).ToList();
+                return tweets;
+            }
+        }
+        #endregion
+
+        #region Tweet Link Scraping Functionality
+        public static List<Match> spaceXLinks = new List<Match>();
+        public static List<Match> nasaLinks = new List<Match>();
+
 
         private List<Match> SpaceX_Link_Fetcher()
         {
@@ -53,15 +72,6 @@ namespace AllAboutMars
             return Link_Finder(Timeline_Fetcher("Nasa"));
         }
         
-       private void Authorizer_Key_Populator()
-        {
-            var resources = new Windows.ApplicationModel.Resources.ResourceLoader("Resources");
-            authorizer.CredentialStore.ConsumerKey = resources.GetString("consumerToken");
-            authorizer.CredentialStore.ConsumerSecret = resources.GetString("consumerSecret");
-            authorizer.CredentialStore.OAuthToken = resources.GetString("accessToken");
-            authorizer.CredentialStore.OAuthTokenSecret = resources.GetString("accessSecret");
-        }
-
         private static List<Match> Link_Finder(List<Status> tweetList)
         {
            string pattern = @"\b(?:https?:)\S+\b";
@@ -75,20 +85,19 @@ namespace AllAboutMars
             spaceXMatches.ForEach(link => spaceXLinks.Add(link));
             nasaMatches.ForEach(link => nasaLinks.Add(link));
         }
+        #endregion
 
+        #region MainPage Event Handlers
 
-        private  static List<Status> Timeline_Fetcher(string user)
+        private void On_Page_Load(object sender, RoutedEventArgs e)
         {
-            using (var twitterContext = new TwitterContext(authorizer))
-            {
-                var tweets = (from tweet in twitterContext.Status
-                              where tweet.Type == StatusType.User
-                              && tweet.ScreenName == user
-                              && tweet.Count == 10                            
-                              select tweet).ToList();
-                return tweets;
-            }
-           
+            Authorizer_Key_Populator();
+            Link_List_Populator(SpaceX_Link_Fetcher(), Nasa_Link_Fetcher());
+            spaceXLB.Items.Clear();
+
+            //takes hyperlinks out of tweet boxes
+            Timeline_Fetcher("SpaceX").ForEach(tweet => spaceXLB.Items.Add((new Regex(@"\b(?:https?:)\S+\b")).Replace(tweet.Text, "")));
+            Timeline_Fetcher("Nasa").ForEach(tweet => nasaLB.Items.Add((new Regex(@"\b(?:https?:)\S+\b")).Replace(tweet.Text, "")));
         }
 
         private async void spaceXLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -103,6 +112,7 @@ namespace AllAboutMars
             await Windows.System.Launcher.LaunchUriAsync(uri);
         }
 
+        //image event handlers --------
         private async void spaceXImage_On_Tapped(object sender, RoutedEventArgs e)
         {
             await Windows.System.Launcher.LaunchUriAsync(new Uri("https://twitter.com/spaceX"));
@@ -131,6 +141,7 @@ namespace AllAboutMars
             nasaImage.Opacity = 1.0;
         }
 
+        //navigation functionality ----------
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage), null);
@@ -145,10 +156,6 @@ namespace AllAboutMars
         {
             Frame.Navigate(typeof(NasaStationPage), null);
         }
-
-        private void spaceXImage_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-
-        }
+        #endregion
     }
 }
