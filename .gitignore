@@ -244,3 +244,14 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /AllAboutMars/Resources.resw
+/MainPageTest.Test
+/MainPage.Test
+/Main.Test
+/MainTest.Test
+/NasaStationPage.Test
+/NasaStationPageTest.Test
+/SpaceXPage.Test
+/SpaceXPageTest.Test
+/SpaceXTest.Test
+/StationTest.Test
+/StationPageTest.Test

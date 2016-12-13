@@ -21,7 +21,6 @@ namespace AllAboutMars
     /// </summary>
     public sealed partial class SpaceXPage : Page
     {
-
         //TODO This page
         //webscrape launch manifest spacex page
         //countdown timer til we get to mars

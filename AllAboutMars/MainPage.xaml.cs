@@ -5,14 +5,17 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using LinqToTwitter;
 using System.Text.RegularExpressions;
+using System.Runtime.CompilerServices;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
+//[assembly: InternalsVisibleTo("MainTest.Test")]
 namespace AllAboutMars
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+ 
     public sealed partial class MainPage : Page
     {
         //TODO ----
@@ -89,7 +92,7 @@ namespace AllAboutMars
 
         #region MainPage Event Handlers
 
-        private void On_Page_Load(object sender, RoutedEventArgs e)
+        public void On_Page_Load(object sender, RoutedEventArgs e)
         {
             Authorizer_Key_Populator();
             Link_List_Populator(SpaceX_Link_Fetcher(), Nasa_Link_Fetcher());
@@ -158,4 +161,6 @@ namespace AllAboutMars
         }
         #endregion
     }
+
+
 }
