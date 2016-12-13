@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.Web.Http;
 using HtmlAgilityPack;
+using System.Linq;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -53,17 +54,12 @@ namespace AllAboutMars
             HttpClient client = new HttpClient();
             var page = await client.GetStringAsync(new Uri("http://www.spacex.com/news"));
             HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(page);
-            var data = doc.DocumentNode.Descendants();
+            doc.LoadHtml(page);     
+            var data = doc.DocumentNode.Descendants().Where(node => node.Name == "a" && node.InnerHtml == "Read article");
             foreach(var node in data)
-            {
-                //finds every node on page that is a link containing the appropriate string value
-                if (node.Name == "a" && node.InnerHtml == "Read article")
-                {
-                    newsLinks.Add("http://www.spacex.com/news" + node.Attributes["href"].Value);
-                    Test.Items.Add("http://www.spacex.com/news" + node.Attributes["href"].Value);
-                    
-                }
+            {     
+                 newsLinks.Add("http://www.spacex.com/news" + node.Attributes["href"].Value);
+                 Test.Items.Add("http://www.spacex.com/news" + node.Attributes["href"].Value);
             }   
         }
 
