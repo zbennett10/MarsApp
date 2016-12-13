@@ -1,25 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using System.Xml;
-using Windows.Web.Http;
-using System.Net;
 using System.Xml.Linq;
-using System.Xml.Serialization;
-using Windows.ApplicationModel;
-using Windows.Storage;
 using Windows.Devices.Geolocation;
 using Windows.UI.Xaml.Controls.Maps;
 
@@ -35,29 +20,28 @@ namespace AllAboutMars
         public NasaStationPage()
         {
             this.InitializeComponent();
-        }
 
-        //TODO General
-        //pull recent text from http://www.planet4589.org/space/jsr/jsr.html (data about recent space happening/launches around world)
-
-        //http://www.celestrak.com/NORAD/documentation/tle-fmt.asp norad two-line element set format pulling data from satellites 
-
-        //figure out how to use geometry and trajectory urls for /spaseObservatories call to SSC
-
-        //TODO This page
-        //add flag icons instead of pins
-
-
-        //populates map control on page load
-        private void On_Page_Load(object sender, RoutedEventArgs e)
-        {
-            stationMap.MapServiceToken = Map_Key_Getter();
+            stationMap.MapServiceToken = Map_Key_Fetcher();
             Pin_Populator(Point_Creator(Position_Creator(Station_Location_Fetcher())));
             MapIcon_Name_Populator(MapIcon_Populator(), Station_Name_Fetcher());
         }
 
-      //gets list of every map element that is a map icon;
-       private List<MapIcon> MapIcon_Populator()
+        //fetches bing map key
+        private string Map_Key_Fetcher()
+        {
+            ResourceLoader resource = new ResourceLoader("Resources");
+            string bingKey = resource.GetString("mapToken");
+            return bingKey;
+        }
+
+        //TODO
+        //add flag icons instead of pins
+        //display station name/location on pin click
+
+        #region Map Control Functionality
+
+        //gets list of every map element that is a map icon;
+        private List<MapIcon> MapIcon_Populator()
         {
             List<MapIcon> icons = new List<MapIcon>();
             for(int i = 0; i < stationMap.MapElements.Count; i++)
@@ -75,7 +59,6 @@ namespace AllAboutMars
                 icons[i].Title = names[i];
             }
         }
-
 
         //converts latitude and longitude of ground station to geoposition
         private List<BasicGeoposition> Position_Creator(List<Location> list)
@@ -99,7 +82,6 @@ namespace AllAboutMars
             return pointList;
         }
 
-        
         //populates map with point markers
         private void Pin_Populator(List<Geopoint> points)
         {   
@@ -108,16 +90,9 @@ namespace AllAboutMars
                 stationMap.MapElements.Add(new MapIcon { Location = point});    
             } 
         }
+        #endregion
 
-        //fetches bing map key
-        private string Map_Key_Getter()
-        {
-            ResourceLoader resource = new ResourceLoader("Resources");
-            string bingKey = resource.GetString("mapToken");
-            return bingKey;
-        }
-
-       
+        #region XML Document-Object Map/Data Functionality
         //Data structures to hold ground station data
         private class Location
         { 
@@ -142,18 +117,13 @@ namespace AllAboutMars
             var locationData = from location in loadedData.Descendants(ns + "Location")
                               select new Location
                               {
-                                  
                                   Latitude = location.Element(ns + "Latitude").Value,
                                   Longitude = location.Element(ns + "Longitude").Value
                               };
             return locationData.ToList();
         }
-
-        //global variable that hold station name data
-        //public static List<string> stationNames;
     
         //fetches every station name from xml document
-        //populates stationNames global list
         private List<string> Station_Name_Fetcher()
         {
 
@@ -172,7 +142,9 @@ namespace AllAboutMars
             }
             return list;
         }
+        #endregion
 
+        #region NasaStationPage Control Event Handlers
         //navigation buttons
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -188,5 +160,6 @@ namespace AllAboutMars
         {
             Frame.Navigate(typeof(NasaStationPage), null);
         }
+        #endregion
     }
 }

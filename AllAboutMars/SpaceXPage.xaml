@@ -57,7 +57,7 @@
 
         <TextBlock Grid.Row="2" FontFamily="Verdana" FontSize="24" HorizontalAlignment="Center">Current SpaceX News</TextBlock>
         
-        <ScrollViewer Grid.Row="3" HorizontalScrollBarVisibility="Visible" Margin="20,0,20,0" BorderBrush="SaddleBrown" BorderThickness="5">
+        <ScrollViewer Grid.Row="3" HorizontalScrollBarVisibility="Visible" Margin="20,0,20,0" BorderBrush="SaddleBrown" BorderThickness="5" Background="Peru">
             <ListBox Name="Test" SelectionChanged="Test_Selection_Changed" Background="LightGray" Foreground="Black" FontFamily="Verdana" FontWeight="Bold"></ListBox>
         </ScrollViewer>
         
